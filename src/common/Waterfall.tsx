@@ -204,6 +204,40 @@ export const sampleEvents: IWaterfallEvent[] = [
   },
 ];
 
+enum EVENTTYPES {
+  START_TASK = 'StartTask',
+  PROCESS_DOM = 'ProcessDOM',
+  DETERMINE_ACTION = 'DetermineAction',
+  PERFORM_ACTION = 'PerformAction',
+  CANCEL_TASK = 'CancelTask',
+  FINISH_TASK = 'FinishTask',
+}
+
+const eventTypeToHumanText = {
+  StartTask: 'Task Started',
+  ProcessDOM: 'Reading Page',
+  DetermineAction: 'Thinking',
+  PerformAction: 'Performing Action',
+  FinishAction: 'Waiting for next action',
+  CancelTask: 'Cancelled',
+  FinishTask: 'Finished',
+};
+
+function formatDuration(milliseconds: number) {
+  const seconds = (milliseconds / 1000).toFixed(2);
+  const minutes = Math.floor(parseFloat(seconds) / 60);
+  const remainingSeconds = (parseFloat(seconds) % 60).toFixed(2);
+
+  const minuteString = minutes > 0 ? `${minutes} m` : '';
+  const secondString = remainingSeconds > 0 ? `${remainingSeconds} s` : '';
+
+  if (minutes > 0 && parseFloat(remainingSeconds) > 0) {
+    return `${minuteString} and ${secondString}`;
+  } else {
+    return `${minuteString}${secondString}`;
+  }
+}
+
 const pixelPerMs = 0.02;
 const barWidthUpdateInterval = 10;
 const hoverCardDelay = 100;
@@ -215,6 +249,7 @@ export default function Waterfall({
 }) {
   const [startTime, setStartTime] = React.useState<number>(0);
   const [currentBarWidth, setCurrentBarWidth] = React.useState<number>(0);
+  const [currentElaspe, setCurrentElapse] = React.useState<number>(0);
   const [isGrowing, setIsGrowing] = React.useState<boolean>(false);
   const waterfallChartRef = React.useRef<HTMLDivElement>(null);
 
@@ -251,6 +286,7 @@ export default function Waterfall({
         setCurrentBarWidth(
           (width) => width + pixelPerMs * barWidthUpdateInterval
         );
+        setCurrentElapse((elapse) => elapse + barWidthUpdateInterval);
         // Scroll to the right if the last bar is about to go out of view
         if (
           storedEvents[storedEvents.length - 1].start +
@@ -392,26 +428,30 @@ export default function Waterfall({
                       </HoverCard.Trigger>
                       <HoverCard.Portal>
                         <HoverCard.Content
-                          className="rounded-md bg-white p-2	drop-shadow-lg"
                           sideOffset={5}
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                            padding: '8px',
+                            gap: '4px',
+                            background: '#FFFFFF',
+                            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.18)',
+                            borderRadius: '4px',
+                            width: '149px',
+                          }}
                         >
-                          <div>
-                            <p className="text-sx overflow-ellipsis">
-                              {event.eventInput}
-                            </p>
-                            <span>
-                              <span className="text-lg w-40 overflow-ellipsis">
-                                {event.elapsed}
-                              </span>
-                              <span className="pl-1 text-xs text-gray-600">
-                                Miliseconds
-                              </span>
-                            </span>
-                            <p className="text-sx overflow-ellipsis">
-                              Thoughts...............
-                            </p>
+                          <p className=" text-xs capitalize">
+                            {eventTypeToHumanText[event.eventInput]}
+                          </p>
+                          <div className="flex flex-row items-end gap-[6px]">
+                            <h3 className=" text-base">
+                              {event.elapsed
+                                ? formatDuration(event.elapsed)
+                                : formatDuration(currentElaspe)}
+                            </h3>
                           </div>
-                          <HoverCard.Arrow />
+                          <HoverCard.Arrow style={{ fill: '#FFFFFF' }} />
                         </HoverCard.Content>
                       </HoverCard.Portal>
                     </HoverCard.Root>
