@@ -250,11 +250,13 @@ export default function Waterfall({
 }) {
   const [startTime, setStartTime] = React.useState<number>(0);
   const [currentBarWidth, setCurrentBarWidth] = React.useState<number>(0);
-  const [currentElaspe, setCurrentElapse] = React.useState<number>(0);
+  const [currentElapse, setCurrentElapse] = React.useState<number>(0);
   const [isGrowing, setIsGrowing] = React.useState<boolean>(false);
   const waterfallChartRef = React.useRef<HTMLDivElement>(null);
 
   const storedEvents = useEventStore.getState().events;
+  // const currentBarWidth = useEventStore.getState().currentBarWidth
+  // const currentElapse = useEventStore.getState().currentElapse
   // FOR FRONTEND DEV PURPOSES ONLY
   // const storedEvents = sampleEvents;
 
@@ -269,6 +271,10 @@ export default function Waterfall({
       storedEvents.length > 11 &&
         waterfallChartRef.current?.scrollBy({ top: 24 });
       
+      // useEventStore.setState({
+      //   currentBarWidth: 0,
+      //   currentElapse: 0
+      // })
       setCurrentBarWidth(0);
       setCurrentElapse(0);
       if (storedEvents[storedEvents.length - 1].finished || storedEvents[storedEvents.length - 1].eventInput === "FinishTask") {
@@ -293,9 +299,15 @@ export default function Waterfall({
     const barInterval = setInterval(() => {
       if (isGrowing) {
         console.log(currentBarWidth);
+        // useEventStore.setState({
+        //   events: storedEvents,
+        //   currentBarWidth: currentBarWidth + pixelPerMs * barWidthUpdateInterval,
+        //   currentElapse: currentElapse + barWidthUpdateInterval,
+        // })
         setCurrentBarWidth(
           (width) => width + pixelPerMs * barWidthUpdateInterval
         );
+
         setCurrentElapse((elapse) => elapse + barWidthUpdateInterval);
         // Scroll to the right if the last bar is about to go out of view
         if (
@@ -458,7 +470,7 @@ export default function Waterfall({
                             <h3 className=" text-base">
                               {event.elapsed
                                 ? formatDuration(event.elapsed)
-                                : formatDuration(currentElaspe)}
+                                : formatDuration(currentElapse)}
                             </h3>
                           </div>
                           <HoverCard.Arrow style={{ fill: '#FFFFFF' }} />

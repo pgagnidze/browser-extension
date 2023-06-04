@@ -58,30 +58,32 @@ let internalTrack = function(eventInput: string, eventProperties?: Record<string
     time = newTime;
     // useStore.setState({name: ‘John’})
     const storedEvents = useEventStore.getState().events
-    useEventStore.setState({
-      events: [
-        ...storedEvents.slice(0, events.length - 1),
-        {
-          ...storedEvents[storedEvents.length - 1],
-          elapsed: duration,
-          finished: newTime - startTime,
-        }
-      ],
-    });
     if (eventInput === "PerformAction") {
       useEventStore.setState({
         events: [
-          ...storedEvents.slice(0, events.length - 3),
+          ...storedEvents.slice(0, events.length - 1),
           {
-            ...storedEvents[storedEvents.length - 2],
+            ...storedEvents[storedEvents.length - 1],
             eventProperties: {
-              ...storedEvents[storedEvents.length - 2].eventProperties,
+              ...storedEvents[storedEvents.length - 1].eventProperties,
               parsedResponse: eventProperties?.parsedResponse,
               prompt: eventProperties?.prompt,
-            }
+            },
+            elapsed: duration,
+            finished: newTime - startTime,
           },
-          ...storedEvents.slice(events.length - 1),
         ]
+      });
+    } else {
+      useEventStore.setState({
+        events: [
+          ...storedEvents.slice(0, events.length - 1),
+          {
+            ...storedEvents[storedEvents.length - 1],
+            elapsed: duration,
+            finished: newTime - startTime,
+          }
+        ],
       });
     }
   };

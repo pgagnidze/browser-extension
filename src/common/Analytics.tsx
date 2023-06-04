@@ -1,6 +1,7 @@
 import React from 'react';
 import Waterfall, { sampleEvents } from './Waterfall';
 import { IWaterfallEvent, useEventStore } from '../state/store';
+import EventView from './EventView';
 
 export default function Analytics() {
   const [selectedEventIndex, setSelectedEventIndex] = React.useState<
@@ -13,9 +14,9 @@ export default function Analytics() {
   return (
     <div className="mt-4 flex flex-col grow">
       <Waterfall setSelectedEventIndex={setSelectedEventIndex} />
-      <div className="my-4 h-full w-full bg-gray-100 flex flex-col items-center justify-center">
+      <div className="my-4 h-full w-full flex flex-col items-center justify-center">
         {selectedEventIndex !== null
-          ? events[selectedEventIndex].eventInput
+          ? <EventView event={events[selectedEventIndex]} />
           : 'Select an event to view its details'}
       </div>
     </div>
