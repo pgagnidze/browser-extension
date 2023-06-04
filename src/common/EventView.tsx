@@ -1,20 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { IWaterfallEvent } from '../state/store';
+import { eventTypeToHumanText } from './Waterfall';
+import clsx from 'clsx';
 
-export default function EventView({ event }) {
+export default function EventView({
+  event,
+}: {
+  event: IWaterfallEvent | null;
+}) {
   // vertical flexbox
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="bg-blue-500 rounded-lg p-4">
-        <div className="text-white text-2xl font-bold">
-          {event.eventInput}
+    <div className="my-4 h-full w-full flex flex-col bg-gray-100">
+      {event !== null ? (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            padding: '0px',
+            gap: '24px',
+            paddingLeft: '24px',
+            paddingRight: '24px',
+            paddingTop: '24px',
+          }}
+        >
+          <p
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              padding: '6.48101px 9.72152px',
+              gap: '3.24px',
+            }}
+            className={clsx(
+              event.eventInput === 'ProcessDOM'
+                ? 'bg-sky-300 '
+                : event.eventInput === 'DetermineAction'
+                ? 'bg-blue-300 '
+                : event.eventInput === 'PerformAction'
+                ? 'bg-blue-500 '
+                : event.eventInput === 'FinishAction' && 'bg-gray-200 ',
+              'text-white font-semibold rounded-md'
+            )}
+          >
+            {eventTypeToHumanText[event.eventInput]}
+          </p>
+          <div></div>
         </div>
-      </div>
-      <div className="bg-gray-100 rounded-lg p-2 mt-4">
-        <div className="text-gray-900 text-2xl font-bold">
-          {event?.eventProperties?.parsedResponse?.thought}
-          {event?.eventProperties?.parsedResponse?.action}
-        </div>
-      </div>
+      ) : (
+        <div>'Select an event to view its details'</div>
+      )}
     </div>
   );
 }

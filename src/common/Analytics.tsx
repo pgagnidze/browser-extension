@@ -1,6 +1,5 @@
 import React from 'react';
 import Waterfall, { sampleEvents } from './Waterfall';
-import { IWaterfallEvent, useEventStore } from '../state/store';
 import EventView from './EventView';
 
 export default function Analytics() {
@@ -8,17 +7,16 @@ export default function Analytics() {
     number | null
   >(null);
 
+  // const events = useEventStore.getState().events;ß
   // FOR FRONTEND DEV PURPOSES ONLY
-  const events = useEventStore.getState().events;
+  const events = sampleEvents;
 
   return (
     <div className="mt-4 flex flex-col grow">
       <Waterfall setSelectedEventIndex={setSelectedEventIndex} />
-      <div className="my-4 h-full w-full flex flex-col items-center justify-center">
-        {selectedEventIndex !== null
-          ? <EventView event={events[selectedEventIndex]} />
-          : 'Select an event to view its details'}
-      </div>
+      <EventView
+        event={selectedEventIndex ? events[selectedEventIndex] : null}
+      />
     </div>
   );
 }
