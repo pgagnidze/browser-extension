@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { IWaterfallEvent, useEventStore } from '../state/store';
+import { IWaterfallEvent } from '../state/store';
 import clsx from 'clsx';
 import * as HoverCard from '@radix-ui/react-hover-card';
 import { startTime as timeOrigin } from '../state/currentTask';
@@ -205,16 +205,7 @@ export const sampleEvents: IWaterfallEvent[] = [
   },
 ];
 
-enum EVENTTYPES {
-  START_TASK = 'StartTask',
-  PROCESS_DOM = 'ProcessDOM',
-  DETERMINE_ACTION = 'DetermineAction',
-  PERFORM_ACTION = 'PerformAction',
-  CANCEL_TASK = 'CancelTask',
-  FINISH_TASK = 'FinishTask',
-}
-
-const eventTypeToHumanText = {
+export const eventTypeToHumanText = {
   StartTask: 'Task Started',
   ProcessDOM: 'Reading Page',
   DetermineAction: 'Thinking',
@@ -230,7 +221,8 @@ function formatDuration(milliseconds: number) {
   const remainingSeconds = (parseFloat(seconds) % 60).toFixed(2);
 
   const minuteString = minutes > 0 ? `${minutes} m` : '';
-  const secondString = parseFloat(remainingSeconds) > 0 ? `${remainingSeconds} s` : '';
+  const secondString =
+    parseFloat(remainingSeconds) > 0 ? `${remainingSeconds} s` : '';
 
   if (minutes > 0 && parseFloat(remainingSeconds) > 0) {
     return `${minuteString} and ${secondString}`;
@@ -254,11 +246,11 @@ export default function Waterfall({
   const [isGrowing, setIsGrowing] = React.useState<boolean>(false);
   const waterfallChartRef = React.useRef<HTMLDivElement>(null);
 
-  const storedEvents = useEventStore.getState().events;
+  // const storedEvents = useEventStore.getState().events;
   // const currentBarWidth = useEventStore.getState().currentBarWidth
   // const currentElapse = useEventStore.getState().currentElapse
   // FOR FRONTEND DEV PURPOSES ONLY
-  // const storedEvents = sampleEvents;
+  const storedEvents = sampleEvents;
 
   useEffect(() => {
     console.log('Events fetched from Zustand', storedEvents);
@@ -270,14 +262,17 @@ export default function Waterfall({
       }
       storedEvents.length > 11 &&
         waterfallChartRef.current?.scrollBy({ top: 24 });
-      
+
       // useEventStore.setState({
       //   currentBarWidth: 0,
       //   currentElapse: 0
       // })
       setCurrentBarWidth(0);
       setCurrentElapse(0);
-      if (storedEvents[storedEvents.length - 1].finished || storedEvents[storedEvents.length - 1].eventInput === "FinishTask") {
+      if (
+        storedEvents[storedEvents.length - 1].finished ||
+        storedEvents[storedEvents.length - 1].eventInput === 'FinishTask'
+      ) {
         setIsGrowing(false);
       } else {
         setIsGrowing(true);
