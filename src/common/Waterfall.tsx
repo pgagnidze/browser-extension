@@ -392,19 +392,24 @@ export default function Waterfall({
                       </HoverCard.Trigger>
                       <HoverCard.Portal>
                         <HoverCard.Content
-                          className="rounded-md bg-white p-2	drop-shadow-md	"
+                          className="rounded-md bg-white p-2	drop-shadow-lg"
                           sideOffset={5}
                         >
-                          <div className="max-w-xs">
+                          <div>
                             <p className="text-sx overflow-ellipsis">
                               {event.eventInput}
                             </p>
                             <span>
-                              <span className="text-lg">{event.elapsed}</span>
+                              <span className="text-lg w-40 overflow-ellipsis">
+                                {event.elapsed}
+                              </span>
                               <span className="pl-1 text-xs text-gray-600">
                                 Miliseconds
                               </span>
                             </span>
+                            <p className="text-sx overflow-ellipsis">
+                              Thoughts...............
+                            </p>
                           </div>
                           <HoverCard.Arrow />
                         </HoverCard.Content>
