@@ -10,7 +10,7 @@ export default function EventView({
 }) {
   // vertical flexbox
   return (
-    <div className="my-4 h-full w-full flex flex-col bg-gray-100">
+    <div className="my-4 h-full w-full flex flex-col bg-gray-100 overflow-scroll">
       {event !== null ? (
         <div
           style={{
@@ -110,6 +110,18 @@ export default function EventView({
               </div>
             </div>
           </div>
+          {/* Thoughts and actions */}
+          {event.eventInput === 'DetermineAction' && (
+            <div className="p-6 w-full bg-gray-200 rounded-md">
+              {event.eventProperties!.parsedResponse.thought}
+            </div>
+          )}
+          {event.eventInput === 'PerformAction' && (
+            <div className="p-6 w-full bg-gray-200 rounded-md">
+              {`I am going to ${event.eventProperties!.parsedResponse.action}`}
+            </div>
+          )}
+
           {/* Event Properties */}
           <div
             style={{
