@@ -7,6 +7,7 @@ import TaskHistory from './TaskHistory';
 import TaskStatus from './TaskStatus';
 import * as Tabs from '@radix-ui/react-tabs';
 import Analytics from './Analytics';
+import SearchSessions from './SearchSessions';
 
 const TaskUI = () => {
   const state = useAppState((state) => ({
@@ -81,12 +82,24 @@ const TaskUI = () => {
               NEW
             </Tag>
           </Tabs.Trigger>
+          <Tabs.Trigger
+            value="tab3"
+            className="py-4 data-[state=active]:border-b data-[state=active]:border-gray-800 font-bold"
+          >
+            Session History 💾
+            <Tag className="ml-1	mt-1" size="sm">
+              NEW
+            </Tag>
+          </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content className="grow flex flex-col" value="tab1">
           <TaskHistory />
         </Tabs.Content>
         <Tabs.Content className="grow flex flex-col" value="tab2">
           <Analytics />
+        </Tabs.Content>
+        <Tabs.Content className="grow flex flex-col" value="tab3">
+          <SearchSessions />
         </Tabs.Content>
       </Tabs.Root>
     </div>
