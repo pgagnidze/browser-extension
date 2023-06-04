@@ -399,7 +399,7 @@ export default function Waterfall({
         </div>
         <div className="flex flex-row gap-1 items-center">
           <div className="h-3 rounded-[4px] w-6 bg-gray-200"></div>
-          <small>Waiting for next action/Other actions</small>
+          <small>Waiting/Other Action</small>
         </div>
       </div>
       {/* Waterfall chart */}
