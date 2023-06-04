@@ -230,7 +230,7 @@ function formatDuration(milliseconds: number) {
   const remainingSeconds = (parseFloat(seconds) % 60).toFixed(2);
 
   const minuteString = minutes > 0 ? `${minutes} m` : '';
-  const secondString = remainingSeconds > 0 ? `${remainingSeconds} s` : '';
+  const secondString = parseFloat(remainingSeconds) > 0 ? `${remainingSeconds} s` : '';
 
   if (minutes > 0 && parseFloat(remainingSeconds) > 0) {
     return `${minuteString} and ${secondString}`;
