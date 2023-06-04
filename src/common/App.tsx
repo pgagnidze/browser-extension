@@ -7,14 +7,20 @@ import TaskUI from './TaskUI';
 import logo from '../assets/img/icon-128.png';
 import * as amplitude from '@amplitude/analytics-browser';
 
-amplitude.init("ea8b57294ba085baafd55cc783db1d4a");
+amplitude.init('ea8b57294ba085baafd55cc783db1d4a');
 
 const App = () => {
   const openAIKey = useAppState((state) => state.settings.openAIKey);
 
   return (
     <ChakraProvider>
-      <Box fontSize="lg" w="full">
+      <Box
+        fontSize="lg"
+        w="full"
+        h="full"
+        display="flex"
+        flexDirection="column"
+      >
         <HStack mb={4} px={8} pt={8} alignItems="center">
           <img
             src={logo}
