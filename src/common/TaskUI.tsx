@@ -1,4 +1,4 @@
-import { HStack, Spacer, Textarea, useToast } from '@chakra-ui/react';
+import { HStack, Spacer, Textarea, useToast, Tag } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { debugMode } from '../constants';
 import { useAppState } from '../state/store';
@@ -76,7 +76,10 @@ const TaskUI = () => {
             value="tab2"
             className="py-4 data-[state=active]:border-b data-[state=active]:border-gray-800 font-bold"
           >
-            Analytics
+            NaviGator 🐊🧭
+            <Tag className="ml-1	mt-1" size="sm">
+              NEW
+            </Tag>
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content className="grow flex flex-col" value="tab1">

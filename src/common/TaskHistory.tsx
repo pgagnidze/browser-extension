@@ -125,9 +125,6 @@ export default function TaskHistory() {
   return (
     <VStack mt={8}>
       <HStack w="full">
-        <Heading as="h3" size="md">
-          Action History
-        </Heading>
         <Spacer />
         <CopyButton text={JSON.stringify(taskHistory, null, 2)} />
       </HStack>
