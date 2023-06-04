@@ -11,8 +11,8 @@ export default function EventView({ event }) {
       </div>
       <div className="bg-gray-100 rounded-lg p-2 mt-4">
         <div className="text-gray-900 text-2xl font-bold">
-          {event?.parsedResponse?.thought}
-          {event?.parsedResponse?.action}
+          {event?.eventProperties?.parsedResponse?.thought}
+          {event?.eventProperties?.parsedResponse?.action}
         </div>
       </div>
     </div>

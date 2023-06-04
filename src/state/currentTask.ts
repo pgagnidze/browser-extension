@@ -66,8 +66,7 @@ let internalTrack = function(eventInput: string, eventProperties?: Record<string
             ...storedEvents[storedEvents.length - 1],
             eventProperties: {
               ...storedEvents[storedEvents.length - 1].eventProperties,
-              parsedResponse: eventProperties?.parsedResponse,
-              prompt: eventProperties?.prompt,
+              ...eventProperties,
             },
             elapsed: duration,
             finished: newTime - startTime,
