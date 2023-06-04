@@ -68,6 +68,22 @@ let internalTrack = function(eventInput: string, eventProperties?: Record<string
         }
       ],
     });
+    if (eventInput === "PerformAction") {
+      useEventStore.setState({
+        events: [
+          ...storedEvents.slice(0, events.length - 3),
+          {
+            ...storedEvents[storedEvents.length - 2],
+            eventProperties: {
+              ...storedEvents[storedEvents.length - 2].eventProperties,
+              parsedResponse: eventProperties?.parsedResponse,
+              prompt: eventProperties?.prompt,
+            }
+          },
+          ...storedEvents.slice(events.length - 1),
+        ]
+      });
+    }
   };
   
   const event: IWaterfallEvent = {
