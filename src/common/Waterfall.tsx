@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { IWaterfallEvent } from '../state/store';
+import { IWaterfallEvent, useEventStore } from '../state/store';
 import clsx from 'clsx';
 import * as HoverCard from '@radix-ui/react-hover-card';
 import { startTime as timeOrigin } from '../state/currentTask';
@@ -292,11 +292,11 @@ export default function Waterfall({
   const [isGrowing, setIsGrowing] = React.useState<boolean>(false);
   const waterfallChartRef = React.useRef<HTMLDivElement>(null);
 
-  // const storedEvents = useEventStore.getState().events;
+  const storedEvents = useEventStore.getState().events;
   // const currentBarWidth = useEventStore.getState().currentBarWidth
   // const currentElapse = useEventStore.getState().currentElapse
   // FOR FRONTEND DEV PURPOSES ONLY
-  const storedEvents = sampleEvents;
+  // const storedEvents = sampleEvents;
 
   useEffect(() => {
     console.log('Events fetched from Zustand', storedEvents);
@@ -339,7 +339,6 @@ export default function Waterfall({
   useEffect(() => {
     const barInterval = setInterval(() => {
       if (isGrowing) {
-        console.log(currentBarWidth);
         // useEventStore.setState({
         //   events: storedEvents,
         //   currentBarWidth: currentBarWidth + pixelPerMs * barWidthUpdateInterval,
@@ -352,9 +351,7 @@ export default function Waterfall({
         setCurrentElapse((elapse) => elapse + barWidthUpdateInterval);
         // Scroll to the right if the last bar is about to go out of view
         if (
-          storedEvents[storedEvents.length - 1].start +
-            pixelPerMs * barWidthUpdateInterval >
-          315
+          (performance.now() - startTime) * pixelPerMs > 315
         ) {
           waterfallChartRef.current?.scrollBy({
             left: pixelPerMs * barWidthUpdateInterval,
@@ -371,25 +368,25 @@ export default function Waterfall({
       <div className="flex flex-row justify-end gap-2">
         <div className="flex flex-row gap-1 items-center">
           <div className="h-3 rounded-[4px] w-6 bg-sky-300"></div>
-          <small>Determing next action</small>
+          <small>Reading Page</small>
+        </div>
+        <div className="flex flex-row gap-1 items-center">
+          <div className="h-3 rounded-[4px] w-6 bg-blue-400"></div>
+          <small>Thinking</small>
         </div>
         <div className="flex flex-row gap-1 items-center">
           <div className="h-3 rounded-[4px] w-6 bg-blue-500"></div>
-          <small>Performing next action</small>
+          <small>Performing action</small>
         </div>
         <div className="flex flex-row gap-1 items-center">
-          <div className="h-3 rounded-[4px] w-6 bg-blue-300"></div>
-          <small>Finishing action</small>
-        </div>
-        <div className="flex flex-row items-center gap-1">
           <div className="h-3 rounded-[4px] w-6 bg-gray-200"></div>
-          <small>Other actions</small>
+          <small>Waiting for next action/Other actions</small>
         </div>
       </div>
       {/* Waterfall chart */}
       <div
         ref={waterfallChartRef}
-        className="min-h-[320px] grow mt-4 overflow-scroll relative"
+        className="min-h-[320px] grow mt-4 overflow-scroll relative scrollbar-hide"
       >
         {/* Time labels */}
         <div className="flex flex-row top-0 sticky">
