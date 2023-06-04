@@ -11,9 +11,9 @@ export default function Analytics() {
   const events = useEventStore.getState().events;
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 flex flex-col grow">
       <Waterfall setSelectedEventIndex={setSelectedEventIndex} />
-      <div className="mt-4 h-full w-full bg-gray-100 flex flex-col items-center justify-center">
+      <div className="my-4 h-full w-full bg-gray-100 flex flex-col items-center justify-center">
         {selectedEventIndex !== null
           ? events[selectedEventIndex].eventInput
           : 'Select an event to view its details'}

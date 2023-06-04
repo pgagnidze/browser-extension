@@ -46,7 +46,7 @@ const TaskUI = () => {
   };
 
   return (
-    <div className="mx-8">
+    <div className="mx-8 grow flex flex-col">
       <Textarea
         autoFocus
         placeholder="Taxy uses OpenAI's GPT-4 API to perform actions on the current page. Try telling it to signup for a newsletter, or to add an item to your cart."
@@ -61,7 +61,7 @@ const TaskUI = () => {
         <Spacer />
         {debugMode && <TaskStatus />}
       </HStack>
-      <Tabs.Root className="TabsRoot" defaultValue="tab1">
+      <Tabs.Root className="grow flex flex-col" defaultValue="tab1">
         <Tabs.List
           className="flex flex-row gap-4"
           aria-label="Manage your account"
@@ -79,10 +79,10 @@ const TaskUI = () => {
             Analytics
           </Tabs.Trigger>
         </Tabs.List>
-        <Tabs.Content className="TabsContent" value="tab1">
+        <Tabs.Content className="grow flex flex-col" value="tab1">
           <TaskHistory />
         </Tabs.Content>
-        <Tabs.Content className="TabsContent" value="tab2">
+        <Tabs.Content className="grow flex flex-col" value="tab2">
           <Analytics />
         </Tabs.Content>
       </Tabs.Root>
