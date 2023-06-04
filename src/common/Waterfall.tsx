@@ -401,7 +401,7 @@ export default function Waterfall({
                             </p>
                             <span>
                               <span className="text-lg">{event.elapsed}</span>
-                              <span className="text-xs text-gray-600">
+                              <span className="pl-1 text-xs text-gray-600">
                                 Miliseconds
                               </span>
                             </span>
