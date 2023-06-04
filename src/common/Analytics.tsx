@@ -1,23 +1,22 @@
 import React from 'react';
 import Waterfall, { sampleEvents } from './Waterfall';
-import { IWaterfallEvent, useEventStore } from '../state/store';
+import EventView from './EventView';
 
 export default function Analytics() {
   const [selectedEventIndex, setSelectedEventIndex] = React.useState<
     number | null
   >(null);
 
+  // const events = useEventStore.getState().events;ß
   // FOR FRONTEND DEV PURPOSES ONLY
-  const events = useEventStore.getState().events;
+  const events = sampleEvents;
 
   return (
     <div className="mt-4 flex flex-col grow">
       <Waterfall setSelectedEventIndex={setSelectedEventIndex} />
-      <div className="my-4 h-full w-full bg-gray-100 flex flex-col items-center justify-center">
-        {selectedEventIndex !== null
-          ? events[selectedEventIndex].eventInput
-          : 'Select an event to view its details'}
-      </div>
+      <EventView
+        event={selectedEventIndex ? events[selectedEventIndex] : null}
+      />
     </div>
   );
 }

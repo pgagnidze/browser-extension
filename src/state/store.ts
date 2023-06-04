@@ -58,6 +58,8 @@ export const useAppState = create<StoreType>()(
 
 const initialEventState = {
   events: [] as IWaterfallEvent[],
+  currentBarWidth: 0,
+  currentElapse: 0,
 };
 
 export const useEventStore = createStore(() => ({
