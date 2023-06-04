@@ -261,11 +261,16 @@ export default function Waterfall({
   useEffect(() => {
     console.log('Events fetched from Zustand', storedEvents);
     if (storedEvents.length > 0) {
-      startTime === 0 && setStartTime(storedEvents[0].start);
+      if (storedEvents.length == 1) {
+        setStartTime(storedEvents[0].start);
+      } else {
+        startTime === 0 && setStartTime(storedEvents[0].start);
+      }
       storedEvents.length > 11 &&
         waterfallChartRef.current?.scrollBy({ top: 24 });
       
       setCurrentBarWidth(0);
+      setCurrentElapse(0);
       if (storedEvents[storedEvents.length - 1].finished || storedEvents[storedEvents.length - 1].eventInput === "FinishTask") {
         setIsGrowing(false);
       } else {
