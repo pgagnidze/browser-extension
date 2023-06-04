@@ -384,7 +384,7 @@ export default function Waterfall({
   return (
     <div className="grow flex flex-col">
       {/* Legends */}
-      <div className="flex flex-row justify-end gap-2">
+      <div className="flex flex-row justify-end gap-4">
         <div className="flex flex-row gap-1 items-center">
           <div className="h-3 rounded-[4px] w-6 bg-sky-300"></div>
           <small>Reading Page</small>
