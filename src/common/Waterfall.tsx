@@ -369,9 +369,7 @@ export default function Waterfall({
 
         setCurrentElapse((elapse) => elapse + barWidthUpdateInterval);
         // Scroll to the right if the last bar is about to go out of view
-        if (
-          (performance.now() - startTime) * pixelPerMs > 315
-        ) {
+        if ((performance.now() - startTime) * pixelPerMs > 315) {
           waterfallChartRef.current?.scrollBy({
             left: pixelPerMs * barWidthUpdateInterval,
           });
