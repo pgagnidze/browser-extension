@@ -4,6 +4,7 @@ import { useAppState } from '../state/store';
 import ModelDropdown from './ModelDropdown';
 import SetAPIKey from './SetAPIKey';
 import TaskUI from './TaskUI';
+import OptionsDropdown from './OptionsDropdown';
 import logo from '../assets/img/icon-128.png';
 import * as amplitude from '@amplitude/analytics-browser';
 
@@ -33,9 +34,10 @@ const App = () => {
           <Heading as="h1" size="lg" flex={1}>
             Travel Agent
           </Heading>
-          <Box>
+          <HStack spacing={2}>
             <ModelDropdown />
-          </Box>
+            <OptionsDropdown />
+          </HStack>
         </HStack>
         {openAIKey ? <TaskUI /> : <SetAPIKey />}
       </Box>
