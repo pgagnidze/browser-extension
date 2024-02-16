@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 var webpack = require('webpack'),
   path = require('path'),
   fileSystem = require('fs-extra'),
@@ -140,7 +141,7 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/assets/img/icon-128.png',
+          from: 'src/assets/img/icon_128.png',
           to: path.join(__dirname, 'build'),
           force: true,
         },
@@ -149,7 +150,7 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/assets/img/icon-34.png',
+          from: 'src/assets/img/icon_32.png',
           to: path.join(__dirname, 'build'),
           force: true,
         },

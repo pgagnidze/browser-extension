@@ -1,1 +1,1 @@
-chrome.devtools.panels.create('Taxy AI', 'icon-34.png', 'panel.html');
+chrome.devtools.panels.create('Taxy AI', 'icon_32.png', 'panel.html');

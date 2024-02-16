@@ -48,7 +48,12 @@ export type CurrentTaskSlice = {
 export let startTime: null | number = 0;
 let time: null | number = null;
 export const events: Array<IWaterfallEvent> = [];
-let internalTrack = function(eventInput: string, eventProperties?: Record<string, any> | undefined, session?: number, eventOptions?: import("@amplitude/analytics-types").EventOptions | undefined) {
+const internalTrack = function (
+  eventInput: string,
+  eventProperties?: Record<string, any> | undefined,
+  session?: number,
+  eventOptions?: import('@amplitude/analytics-types').EventOptions | undefined
+) {
   if (time == null) {
     time = performance.now();
     startTime = time;
@@ -57,8 +62,8 @@ let internalTrack = function(eventInput: string, eventProperties?: Record<string
     const duration = newTime - time;
     time = newTime;
     // useStore.setState({name: ‘John’})
-    const storedEvents = useEventStore.getState().events
-    if (eventInput === "PerformAction") {
+    const storedEvents = useEventStore.getState().events;
+    if (eventInput === 'PerformAction') {
       useEventStore.setState({
         events: [
           ...storedEvents.slice(0, events.length - 1),
@@ -69,9 +74,9 @@ let internalTrack = function(eventInput: string, eventProperties?: Record<string
               ...eventProperties,
             },
             elapsed: duration,
-            finished: newTime - startTime,
+            finished: startTime ? newTime - startTime : null,
           },
-        ]
+        ],
       });
     } else {
       useEventStore.setState({
@@ -80,28 +85,28 @@ let internalTrack = function(eventInput: string, eventProperties?: Record<string
           {
             ...storedEvents[storedEvents.length - 1],
             elapsed: duration,
-            finished: newTime - startTime,
-          }
+            finished: startTime ? newTime - startTime : null,
+          },
         ],
       });
     }
-  };
-  
+  }
+
   const event: IWaterfallEvent = {
     eventInput,
     eventProperties,
-    start: time - startTime,
+    start: startTime ? time - startTime : 0,
     elapsed: null,
     finished: null,
   };
-  const storedEvents = useEventStore.getState().events
+  const storedEvents = useEventStore.getState().events;
 
-  if (eventInput === "StartTask") {
+  if (eventInput === 'StartTask') {
     useEventStore.setState({
       events: [event],
     });
   } else {
-      useEventStore.setState({
+    useEventStore.setState({
       events: [...storedEvents, event],
     });
   }
@@ -119,7 +124,7 @@ let internalTrack = function(eventInput: string, eventProperties?: Record<string
       'Content-Type': 'application/json',
     },
   });
-}
+};
 
 export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
   set,
@@ -171,17 +176,21 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
           instructions,
           site,
         };
-        internalTrack("StartTask", startSessionProperties, session);
-        let query = {};
+        internalTrack('StartTask', startSessionProperties, session);
+        let query: {
+          usage: CreateCompletionResponseUsage;
+          prompt: string;
+          response: string;
+        } | null = null;
         // eslint-disable-next-line no-constant-condition
         while (true) {
           const actionId = uuidv4();
-          
+
           if (wasStopped()) {
             const cancelProperties = {
               actionId,
             };
-            internalTrack("CancelTask", cancelProperties, session);
+            internalTrack('CancelTask', cancelProperties, session);
             break;
           }
 
@@ -189,7 +198,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             actionId,
             // history: JSON.stringify(get().currentTask.history),
           };
-          internalTrack("ProcessDOM", processDOMProperties, session);
+          internalTrack('ProcessDOM', processDOMProperties, session);
 
           setActionStatus('pulling-dom');
           const pageDOM = await getSimplifiedDom();
@@ -197,12 +206,12 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             set((state) => {
               state.currentTask.status = 'error';
             });
-          
+
             const errorProperties = {
               actionId,
               error: 'Could not get DOM',
             };
-            internalTrack("ActionError", errorProperties, session);
+            internalTrack('ActionError', errorProperties, session);
 
             break;
           }
@@ -212,7 +221,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             const cancelProperties = {
               actionId,
             };
-            internalTrack("CancelTask", cancelProperties, session);
+            internalTrack('CancelTask', cancelProperties, session);
 
             break;
           }
@@ -222,13 +231,13 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
           const previousActions = get()
             .currentTask.history.map((entry) => entry.action)
             .filter(truthyFilter);
-          
+
           const determineActionProperties = {
             actionId,
             // history: JSON.stringify(get().currentTask.history),
             // dom: pageDOM,
           };
-          internalTrack("DetermineAction", determineActionProperties, session);
+          internalTrack('DetermineAction', determineActionProperties, session);
 
           setActionStatus('performing-query');
 
@@ -251,7 +260,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
               actionId,
               error: 'Could not determine next action',
             };
-            internalTrack("ActionError", errorProperties, session);
+            internalTrack('ActionError', errorProperties, session);
 
             break;
           }
@@ -260,7 +269,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             const cancelProperties = {
               actionId,
             };
-            internalTrack("CancelTask", cancelProperties, session);
+            internalTrack('CancelTask', cancelProperties, session);
 
             break;
           }
@@ -271,17 +280,17 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             actionId,
             ...query,
             parsedResponse: action,
-          }
-          internalTrack("PerformAction", performActionProperties, session);
+          };
+          internalTrack('PerformAction', performActionProperties, session);
 
           setActionStatus('performing-action');
 
           set((state) => {
             state.currentTask.history.push({
-              prompt: query.prompt,
-              response: query.response,
+              prompt: query?.prompt ?? '',
+              response: query?.response ?? '',
               action,
-              usage: query.usage,
+              usage: query?.usage as any,
             });
           });
           if ('error' in action) {
@@ -291,7 +300,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
               actionId,
               error: action.error,
             };
-            internalTrack("ActionError", errorProperties, session);
+            internalTrack('ActionError', errorProperties, session);
 
             break;
           }
@@ -305,20 +314,20 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
                 actionId,
                 error: 'No action returned from model',
               };
-              internalTrack("ActionError", errorProperties, session);
+              internalTrack('ActionError', errorProperties, session);
             } else if (action.parsedAction.name === 'finish') {
               const successProperties = {
                 actionId,
                 parsedResponse: action,
               };
-              internalTrack("ActionSuccess", successProperties, session);
+              internalTrack('ActionSuccess', successProperties, session);
             } else if (action.parsedAction.name === 'fail') {
               const errorProperties = {
                 actionId,
                 error: 'Model returned fail action',
                 parsedResponse: action,
               };
-              internalTrack("ActionError", errorProperties, session);
+              internalTrack('ActionError', errorProperties, session);
             }
             break;
           }
@@ -336,7 +345,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             const cancelProperties = {
               actionId,
             };
-            internalTrack("CancelTask", cancelProperties, session);
+            internalTrack('CancelTask', cancelProperties, session);
 
             break;
           }
@@ -349,16 +358,16 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
               actionId,
               error: `Stopped after ${actionLimit} actions`,
             };
-            internalTrack("ActionError", errorProperties, session);
-            
+            internalTrack('ActionError', errorProperties, session);
+
             break;
           }
 
           const finishActionProperties = {
             actionId,
             action: action?.parsedAction.name,
-          }
-          internalTrack("FinishAction", finishActionProperties, session);
+          };
+          internalTrack('FinishAction', finishActionProperties, session);
 
           setActionStatus('waiting');
           // sleep 2 seconds. This is pretty arbitrary; we should figure out a better way to determine when the page has settled.
@@ -367,11 +376,11 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
         set((state) => {
           state.currentTask.status = 'success';
         });
-        
+
         const finishSessionProperties = {
-          ...query
+          ...query,
         };
-        internalTrack("FinishTask", finishSessionProperties, session);
+        internalTrack('FinishTask', finishSessionProperties, session);
       } catch (e: any) {
         onError(e.message);
         set((state) => {

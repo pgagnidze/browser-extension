@@ -1,4 +1,4 @@
-<img src="src/assets/img/icon-128.png" width="64"/>
+<img src="src/assets/img/icon_128.png" width="64"/>
 
 # Taxy AI: Full Browser Automation
 [Waitlist](https://docs.google.com/forms/d/e/1FAIpQLScAFKI1fZ1cXhBmSp2HM93Jvuc8Jvrxh5iSbkKhtwKN-OHoTQ/viewform) | [Discord](https://discord.gg/DXaErbBc)

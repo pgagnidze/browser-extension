@@ -1,11 +1,11 @@
-name: Build and Release Chrome Extension
+name: (Disabled) Build and Release Chrome Extension
 
 on:
   push:
-    branches:
-      - main
-    tags:
-      - 'v*.*.*'
+    # branches:
+    #   - main
+    # tags:
+    #   - 'v*.*.*'
 
 jobs:
   build-and-release:
@@ -31,7 +31,7 @@ jobs:
         id: packExtensionDir
         uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
         with:
-          extensionDir: 'build' # change this to your extension build folder
+          extensionDir: 'build'
           zipFilePath: 'build/extension.zip'
 
       - name: Sign Chrome extension
