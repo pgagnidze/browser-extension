@@ -8,10 +8,20 @@ var webpack = require('webpack'),
   TerserPlugin = require('terser-webpack-plugin'),
   Dotenv = require('dotenv-webpack');
 var { CleanWebpackPlugin } = require('clean-webpack-plugin');
+var NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
-var alias = {};
+var alias = {
+  '@owloops/chrome-recorder': path.resolve(
+    __dirname,
+    'node_modules/@owloops/chrome-recorder'
+  ),
+  '@puppeteer/replay': path.resolve(
+    __dirname,
+    'node_modules/@puppeteer/replay'
+  ),
+};
 
 // load the secrets
 var secretsPath = path.join(__dirname, 'secrets.' + env.NODE_ENV + '.js');
@@ -42,6 +52,7 @@ var options = {
     background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
     contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.ts'),
     devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
+    replay: path.join(__dirname, 'src', 'pages', 'Devtools', 'replay.js'),
     panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
   },
   chromeExtensionBoilerplate: {
@@ -99,13 +110,26 @@ var options = {
       },
     ],
   },
+  externals: {
+    'url': 'url',
+  },
   resolve: {
+    fallback: {
+      "fs": false,
+      "child_process": false,
+      "net": false,
+      "tls": false,
+      "readline": false,
+      "module": false,
+      "dns": false,
+    },
     alias: alias,
     extensions: fileExtensions
       .map((extension) => '.' + extension)
       .concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
   },
   plugins: [
+    new NodePolyfillPlugin(),
     new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
     // expose and write the allowed env vars on the compiled bundle
@@ -126,6 +150,15 @@ var options = {
               })
             );
           },
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/pages/Devtools/owloops.svg',
+          to: path.join(__dirname, 'build'),
+          force: true,
         },
       ],
     }),
@@ -202,6 +235,12 @@ var options = {
       template: path.join(__dirname, 'src', 'pages', 'Panel', 'index.html'),
       filename: 'panel.html',
       chunks: ['panel'],
+      cache: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'pages', 'Devtools', 'replay.html'),
+      filename: 'replay.html',
+      chunks: ['replay'],
       cache: false,
     }),
     new Dotenv({ path: path.resolve(__dirname, '.env') }),

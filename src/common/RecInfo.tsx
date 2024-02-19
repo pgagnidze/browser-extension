@@ -33,7 +33,7 @@ const ShowRecInfo = () => {
       <div className="mt-6 flex justify-center">
         <button
           onClick={() => setShowNotes(!showNotes)}
-          className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 border-none rounded-md cursor-pointer uppercase font-bold transition duration-300 inline-flex items-center"
+          className="bg-blue-500 hover:bg-blue-400 text-md text-white py-2 px-4 border-none rounded-md cursor-pointer transition duration-300 inline-flex items-center"
         >
           Troubleshooting
           <svg
