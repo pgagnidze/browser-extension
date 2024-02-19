@@ -10,7 +10,7 @@ export default function EventView({
 }) {
   // vertical flexbox
   return (
-    <div className="my-4 h-full w-full flex flex-col bg-gray-100 overflow-scroll">
+    <div className="my-4 h-full w-full flex flex-col bg-[#0f172a] overflow-scroll">
       {event !== null ? (
         <div
           style={{
@@ -34,13 +34,13 @@ export default function EventView({
             }}
             className={clsx(
               event.eventInput === 'ProcessDOM'
-                ? 'bg-sky-300 text-sky-800'
+                ? 'bg-sky-400 text-sky-900'
                 : event.eventInput === 'DetermineAction'
-                ? 'bg-blue-300 text-blue-800'
+                ? 'bg-blue-400 text-blue-900'
                 : event.eventInput === 'PerformAction'
-                ? 'bg-blue-500 text-white'
+                ? 'bg-blue-600 text-white'
                 : event.eventInput === 'FinishAction' &&
-                  'bg-gray-200 text-gray-700 ',
+                  'bg-gray-600 text-gray-50 ',
               ' font-semibold rounded-md'
             )}
           >
@@ -66,8 +66,8 @@ export default function EventView({
                 gap: '0px',
               }}
             >
-              <p className="text-[16px] text-gray-600">Process Duration</p>
-              <h3 className="text-[32px] text-black">
+              <p className="text-[16px] text-gray-200">Process Duration</p>
+              <h3 className="text-[32px] text-gray-50">
                 {event.elapsed ? formatDuration(event.elapsed) : 'Pending'}
               </h3>
             </div>
@@ -88,7 +88,7 @@ export default function EventView({
                   padding: '6px 0px',
                   gap: '24px',
                 }}
-                className="text-base text-gray-600 border-b border-gray-200 w-[180px]"
+                className="text-base text-gray-200 border-b border-gray-800 w-[180px]"
               >
                 <p className="w-[100px]">Start Time</p>
                 <p>{formatDuration(event.start)}</p>
@@ -101,7 +101,7 @@ export default function EventView({
                   padding: '6px 0px',
                   gap: '24px',
                 }}
-                className="text-base text-gray-600"
+                className="text-base text-gray-200"
               >
                 <p className="w-[100px]">Finish Time</p>
                 <p>
@@ -112,12 +112,12 @@ export default function EventView({
           </div>
           {/* Thoughts and actions */}
           {event.eventInput === 'DetermineAction' && (
-            <div className="p-6 w-full bg-gray-200 rounded-md">
+            <div className="p-6 w-full bg-gray-600 rounded-md">
               {event.eventProperties!.parsedResponse.thought}
             </div>
           )}
           {event.eventInput === 'PerformAction' && (
-            <div className="p-6 w-full bg-gray-200 rounded-md">
+            <div className="p-6 w-full bg-gray-600 rounded-md">
               {`I am going to ${event.eventProperties!.parsedResponse.action}`}
             </div>
           )}
@@ -138,11 +138,11 @@ export default function EventView({
               Object.keys(event.eventProperties).map((key, index) => (
                 <div
                   className={clsx(
-                    'w-full py-2 border-b border-gray-200 last:border-b-0 flex flex-row text-sm'
+                    'w-full py-2 border-b border-gray-600 last:border-b-0 flex flex-row text-sm'
                   )}
                   key={index}
                 >
-                  <p className="w-[180px] text-gray-600">{key}</p>
+                  <p className="w-[180px] text-gray-200">{key}</p>
                   <p className="grow">
                     {typeof event.eventProperties![key] === 'object'
                       ? JSON.stringify(event.eventProperties![key])
@@ -153,7 +153,9 @@ export default function EventView({
           </div>
         </div>
       ) : (
-        <div>'Select an event to view its details'</div>
+        <div className="bg-[#0f172a] text-gray-50">
+          Select an event to view its details
+        </div>
       )}
     </div>
   );

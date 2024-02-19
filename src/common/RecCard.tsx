@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Text, Button, Flex } from '@chakra-ui/react';
 import logo from '../assets/img/ow-rec.svg';
 
-const RecCard = () => (
+const RecCard = ({ onLearnMore }: { onLearnMore: () => void }) => (
   <Flex
     flexDirection="column"
     align="center"
@@ -19,7 +19,7 @@ const RecCard = () => (
     <Text fontSize="xs" mb="4">
       Record and replay user sessions to improve user experience.
     </Text>
-    <Button colorScheme="blue" size="sm">
+    <Button colorScheme="blue" size="sm" onClick={onLearnMore}>
       Learn More
     </Button>
   </Flex>

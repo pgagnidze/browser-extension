@@ -6,6 +6,7 @@ import {
   Flex,
   Heading,
   HStack,
+  IconButton,
 } from '@chakra-ui/react';
 import { useAppState } from '../state/store';
 import ModelDropdown from './ModelDropdown';
@@ -17,15 +18,69 @@ import RecCard from './RecCard';
 import logo from '../assets/img/icon_128.png';
 import * as amplitude from '@amplitude/analytics-browser';
 import theme from './theme';
+import ShowRecInfo from './RecInfo';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 amplitude.init('ee62116ebda9d6653956595dc3b461a6');
 
 const App = () => {
   const openAIKey = useAppState((state) => state.settings.openAIKey);
   const [showMain, setShowMain] = useState(false);
+  const [showRecInfo, setShowRecInfo] = useState(false);
+
+  const handleBackClick = () => {
+    if (showRecInfo) {
+      setShowRecInfo(false);
+    } else {
+      setShowMain(false);
+    }
+  };
 
   const handleLearnMoreClick = () => {
     setShowMain(true);
+    setShowRecInfo(false);
   };
+
+  const handleRecLearnMoreClick = () => {
+    setShowRecInfo(true);
+    setShowMain(false);
+  };
+
+  if (showRecInfo) {
+    return (
+      <ChakraProvider theme={theme}>
+        <Box
+          fontSize="lg"
+          w="full"
+          h="full"
+          display="flex"
+          flexDirection="column"
+        >
+          <HStack mb={4} px={8} pt={8} alignItems="center">
+            <IconButton
+              icon={<ArrowBackIcon />}
+              aria-label="Back"
+              onClick={handleBackClick}
+              size="sm"
+              isRound={true}
+              mr={2}
+            />
+            <img
+              src={logo}
+              width={32}
+              height={32}
+              className="App-logo"
+              alt="logo"
+            />
+
+            <Heading as="h1" size="md" flex={1}>
+              Owloops Rec
+            </Heading>
+          </HStack>
+          <ShowRecInfo />
+        </Box>
+      </ChakraProvider>
+    );
+  }
 
   if (showMain) {
     return (
@@ -38,6 +93,14 @@ const App = () => {
           flexDirection="column"
         >
           <HStack mb={4} px={8} pt={8} alignItems="center">
+            <IconButton
+              icon={<ArrowBackIcon />}
+              aria-label="Back"
+              onClick={handleBackClick}
+              size="sm"
+              isRound={true}
+              mr={2}
+            />
             <img
               src={logo}
               width={32}
@@ -46,7 +109,7 @@ const App = () => {
               alt="logo"
             />
 
-            <Heading as="h1" size="lg" flex={1}>
+            <Heading as="h1" size="md" flex={1}>
               Owloops AI
             </Heading>
             <HStack spacing={2}>
@@ -63,25 +126,25 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <Flex
-        direction="row" // Ensures items are in a row
-        justify="center" // Center items horizontally
-        align="center" // Center items vertically
-        wrap="nowrap" // Prevent wrapping
-        boxShadow="0 8px 32px 0 rgba(31, 38, 135, 0.37)"
+        direction="row"
+        justify="center"
+        align="center"
+        wrap="nowrap"
         bg="#0f172a"
         color="#d8dee9"
         p="4"
-        gap="2" // Minimal gap for the appearance of a thin separator
+        gap="2"
         w="full"
+        h="full"
       >
         <Box
           display="flex"
-          flexDirection="row" // Align children in a row
+          flexDirection="row"
           borderColor="#4A5568"
           borderWidth="0.5px"
           bg="#1e293b"
           rounded="md"
-          boxShadow="xl"
+          boxShadow="0 8px 32px 0 rgba(31, 38, 135, 0.37)"
           color="#d8dee9"
         >
           <AICard onLearnMore={handleLearnMoreClick} />
@@ -91,7 +154,7 @@ const App = () => {
             borderColor="#4A5568"
             borderWidth="0.5px"
           />
-          <RecCard />
+          <RecCard onLearnMore={handleRecLearnMoreClick} />
         </Box>
       </Flex>
     </ChakraProvider>

@@ -21,12 +21,16 @@ const OptionsDropdown = () => {
     <Menu>
       <MenuButton
         as={IconButton}
+        color="gray"
+        _hover={{ color: 'gray.300' }}
+        _active={{ color: 'gray.300' }}
         aria-label="Options"
         icon={<SettingsIcon />}
         variant="outline"
       />
       <MenuList>
         <MenuItem
+          color="gray.600"
           icon={<RepeatIcon />}
           onClick={() => {
             updateSettings({ openAIKey: '' });

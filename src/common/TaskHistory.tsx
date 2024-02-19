@@ -11,11 +11,13 @@ import {
   Spacer,
   ColorProps,
   BackgroundProps,
+  ChakraProvider,
 } from '@chakra-ui/react';
 import React from 'react';
 import { TaskHistoryEntry } from '../state/currentTask';
 import { useAppState } from '../state/store';
 import CopyButton from './CopyButton';
+import theme from './theme';
 
 type TaskHistoryItemProps = {
   index: number;
@@ -27,14 +29,14 @@ const CollapsibleComponent = (props: {
   subtitle?: string;
   text: string;
 }) => (
-  <AccordionItem backgroundColor="white">
+  <AccordionItem backgroundColor="#0f172a">
     <Heading as="h4" size="xs">
       <AccordionButton>
         <HStack flex="1">
           <Box>{props.title}</Box>
           <CopyButton text={props.text} /> <Spacer />
           {props.subtitle && (
-            <Box as="span" fontSize="xs" color="gray.500" mr={4}>
+            <Box as="span" fontSize="xs" color="gray.100" mr={4}>
               {props.subtitle}
             </Box>
           )}
@@ -92,7 +94,7 @@ const TaskHistoryItem = ({ index, entry }: TaskHistoryItemProps) => {
           <AccordionIcon />
         </AccordionButton>
       </Heading>
-      <AccordionPanel backgroundColor="gray.100" p="2">
+      <AccordionPanel backgroundColor="#0f172a" p="2">
         <Accordion allowMultiple w="full" defaultIndex={1}>
           <CollapsibleComponent
             title="Prompt"
@@ -123,16 +125,18 @@ export default function TaskHistory() {
   if (taskHistory.length === 0 && taskStatus !== 'running') return null;
 
   return (
-    <VStack mt={8}>
-      <HStack w="full">
-        <Spacer />
-        <CopyButton text={JSON.stringify(taskHistory, null, 2)} />
-      </HStack>
-      <Accordion allowMultiple w="full" pb="4">
-        {taskHistory.map((entry, index) => (
-          <TaskHistoryItem key={index} index={index} entry={entry} />
-        ))}
-      </Accordion>
-    </VStack>
+    <ChakraProvider theme={theme}>
+      <VStack mt={8}>
+        <HStack w="full">
+          <Spacer />
+          <CopyButton text={JSON.stringify(taskHistory, null, 2)} />
+        </HStack>
+        <Accordion allowMultiple w="full" pb="4">
+          {taskHistory.map((entry, index) => (
+            <TaskHistoryItem key={index} index={index} entry={entry} />
+          ))}
+        </Accordion>
+      </VStack>
+    </ChakraProvider>
   );
 }

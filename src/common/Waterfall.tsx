@@ -512,7 +512,7 @@ export default function Waterfall({
                             alignItems: 'flex-start',
                             padding: '8px',
                             gap: '4px',
-                            background: '#FFFFFF',
+                            background: '#0f172a',
                             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.18)',
                             borderRadius: '4px',
                             width: '149px',
@@ -528,7 +528,7 @@ export default function Waterfall({
                                 : formatDuration(currentElapse)}
                             </h3>
                           </div>
-                          <HoverCard.Arrow style={{ fill: '#FFFFFF' }} />
+                          <HoverCard.Arrow style={{ fill: '#0f172a' }} />
                         </HoverCard.Content>
                       </HoverCard.Portal>
                     </HoverCard.Root>

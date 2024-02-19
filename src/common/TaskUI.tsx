@@ -49,7 +49,7 @@ const TaskUI = () => {
     <div className="mx-8 grow flex flex-col">
       <Textarea
         autoFocus
-        placeholder="Taxy uses OpenAI's GPT-4 API to perform actions on the current page. Try telling it to signup for a newsletter, or to add an item to your cart."
+        placeholder="Owloops uses OpenAI's GPT-4 API to perform actions on the current page. Try telling it to signup for a newsletter, or to add an item to your cart."
         value={state.instructions || ''}
         disabled={taskInProgress}
         onChange={(e) => state.setInstructions(e.target.value)}

@@ -1,12 +1,8 @@
 {
-  "name": "taxy-ai-browser-extension",
+  "name": "owloops-browser-extension",
   "version": "1.1.0",
-  "description": "Web agent to do your bidding online",
+  "description": "",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com:TaxyAI/browser-extension.git"
-  },
   "scripts": {
     "build": "node utils/build.js",
     "start": "node utils/webserver.js",
@@ -14,6 +10,21 @@
     "test": "jest",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Owloops/owloops-recorder-extension.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "owloops",
+    "automation"
+  ],
+  "author": "Papuna Gagnidze <pgagnidze@owloops.com>",
+  "bugs": {
+    "url": "https://github.com/Owloops/owloops-recorder-extension/issues"
+  },
+  "homepage": "https://github.com/Owloops/owloops-recorder-extension#readme",
   "dependencies": {
     "@amplitude/analytics-browser": "^1.10.4",
     "@chakra-ui/icons": "^2.0.16",
