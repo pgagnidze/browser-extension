@@ -1,4 +1,4 @@
-chrome.devtools.panels.create('Owloops Extension', 'icon_32.png', 'panel.html');
+chrome.devtools.panels.create('Owloops', 'icon_32.png', 'panel.html');
 
 import { owloopsStringifyChromeRecording } from '@owloops/chrome-recorder';
 

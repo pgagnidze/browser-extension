@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Owloops Extension",
+  "name": "Owloops",
   "description": "Owloops extension for DevTools that allows you to export and sync tests directly from the Recorder panel.",
   "version": "0.3.0",
   "options_page": "options.html",
@@ -16,7 +16,7 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon_32.png",
-    "default_title": "Chrome Recorder Extention"
+    "default_title": "Owloops Chrome Extention"
   },
   "minimum_chrome_version": "112.0.5569.0",
   "icons": {

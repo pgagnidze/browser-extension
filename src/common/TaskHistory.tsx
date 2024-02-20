@@ -125,8 +125,7 @@ export default function TaskHistory() {
   if (taskHistory.length === 0 && taskStatus !== 'running') return null;
 
   return (
-    <ChakraProvider theme={theme}>
-      <VStack mt={8}>
+    <VStack mt={8}>
         <HStack w="full">
           <Spacer />
           <CopyButton text={JSON.stringify(taskHistory, null, 2)} />
@@ -137,6 +136,5 @@ export default function TaskHistory() {
           ))}
         </Accordion>
       </VStack>
-    </ChakraProvider>
   );
 }

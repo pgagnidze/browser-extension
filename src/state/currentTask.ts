@@ -61,7 +61,6 @@ const internalTrack = function (
     const newTime = performance.now();
     const duration = newTime - time;
     time = newTime;
-    // useStore.setState({name: ‘John’})
     const storedEvents = useEventStore.getState().events;
     if (eventInput === 'PerformAction') {
       useEventStore.setState({
@@ -114,16 +113,16 @@ const internalTrack = function (
     setSessionId(session);
   }
   track(eventInput, eventProperties);
-  fetch(`http://127.0.0.1:8000/${eventInput}`, {
-    method: 'POST',
-    body: JSON.stringify({
-      ...eventProperties,
-      session,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  // fetch(`http://127.0.0.1:8000/${eventInput}`, {
+  //   method: 'POST',
+  //   body: JSON.stringify({
+  //     ...eventProperties,
+  //     session,
+  //   }),
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // });
 };
 
 export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
