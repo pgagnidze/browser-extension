@@ -7,7 +7,7 @@ The Owloops Browser Automation Extension is a comprehensive tool for automating 
 ### Features
 
 - **Ad-hoc Instructions Execution:** Utilize GPT-4 to automate repetitive actions with immediate instructions.
-- **Export as Owloops Test Script:** Seamlessly export recordings from Chrome DevTools Recorder for quick test script generation.
+- **Export as Owloops Test Script:** Seamlessly export recordings from Chrome DevTools Recorder for quick test script generation. (This feature relies on the [owloops-chrome-recorder](https://github.com/Owloops/owloops-chrome-recorder) library)
 - **Research Preview:** Currently in the research preview phase, inviting users to test and contribute towards improving the extension.
 
 ### Installation Instructions
