@@ -17,10 +17,10 @@ const AICard = ({ onLearnMore }: { onLearnMore: () => void }) => (
       Owloops AI
     </Text>
     <Text fontSize="xs" mb="4">
-      Harness the power of AI to optimize your workflows.
+      Harness the power of AI for exploratory testing.
     </Text>
     <Button colorScheme="blue" size="sm" onClick={onLearnMore}>
-      Learn More
+      Try now
     </Button>
   </Flex>
 );

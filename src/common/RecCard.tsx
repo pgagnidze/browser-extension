@@ -17,7 +17,7 @@ const RecCard = ({ onLearnMore }: { onLearnMore: () => void }) => (
       Owloops Rec
     </Text>
     <Text fontSize="xs" mb="4">
-      Record and replay user sessions to improve user experience.
+      Record and replay user flows for monitoring and quality assurance.
     </Text>
     <Button colorScheme="blue" size="sm" onClick={onLearnMore}>
       Learn More
