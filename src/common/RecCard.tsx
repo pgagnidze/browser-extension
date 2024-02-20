@@ -8,9 +8,9 @@ const RecCard = ({ onLearnMore }: { onLearnMore: () => void }) => (
     align="center"
     textAlign="center"
     p="4"
-    w="100%" // Adjust width to take full space available
+    w="100%"
     h="auto"
-    m="0" // Remove margin to glue to the separator
+    m="0"
   >
     <Image src={logo} boxSize="50px" margin="auto" />
     <Text fontSize="md" my="2">

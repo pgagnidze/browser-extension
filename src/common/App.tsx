@@ -19,6 +19,7 @@ import logo from '../assets/img/icon_128.png';
 import * as amplitude from '@amplitude/analytics-browser';
 import theme from './theme';
 import ShowRecInfo from './RecInfo';
+import ConsentPage from './ConsentPage';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 amplitude.init('ee62116ebda9d6653956595dc3b461a6');
 
@@ -26,6 +27,7 @@ const App = () => {
   const openAIKey = useAppState((state) => state.settings.openAIKey);
   const [showMain, setShowMain] = useState(false);
   const [showRecInfo, setShowRecInfo] = useState(false);
+  const [consentGiven, setConsentGiven] = useState(false);
 
   const handleBackClick = () => {
     if (showRecInfo) {
@@ -37,13 +39,20 @@ const App = () => {
 
   const handleLearnMoreClick = () => {
     setShowMain(true);
-    setShowRecInfo(false);
   };
 
   const handleRecLearnMoreClick = () => {
     setShowRecInfo(true);
     setShowMain(false);
   };
+
+  if (!consentGiven && showMain) {
+    return (
+      <ChakraProvider theme={theme}>
+        <ConsentPage onConsent={() => setConsentGiven(true)} />
+      </ChakraProvider>
+    );
+  }
 
   if (showRecInfo) {
     return (
@@ -82,7 +91,7 @@ const App = () => {
     );
   }
 
-  if (showMain) {
+  if (showMain && consentGiven) {
     return (
       <ChakraProvider theme={theme}>
         <Box
